@@ -70,12 +70,17 @@ public class UsersController {
     return ResponseEntity.ok(userResource);
   }
 
-    @PostMapping("/{userId}/update-proofing")
-    public ResponseEntity<String> updateProofingEntrepreneure(
-            @PathVariable Long userId,
-            @RequestBody @Valid UpdateProofingEntrepreneureResource resource) {
-      var command = UpdateProofingEntrepreneureCommandFromResourceAssembler.toCommandFromResource(userId, resource);
-      userCommandService.updateProofingEntrepreneure(command);
-      return ResponseEntity.ok("ProofingEntrepreneure updated successfully.");
-    }
+  @PutMapping("/{userId}/update-proofing")
+  public ResponseEntity<String> updateProofingEntrepreneure(
+          @PathVariable Long userId,
+          @RequestBody @Valid UpdateProofingEntrepreneureResource resource) {
+    // Convertir el recurso en un comando
+    var command = UpdateProofingEntrepreneureCommandFromResourceAssembler.toCommandFromResource(userId, resource);
+
+    // Ejecutar la lógica de negocio
+    userCommandService.updateProofingEntrepreneure(command);
+
+    return ResponseEntity.ok("ProofingEntrepreneure updated successfully.");
+  }
+
 }

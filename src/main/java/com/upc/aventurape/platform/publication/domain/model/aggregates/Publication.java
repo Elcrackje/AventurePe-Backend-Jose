@@ -38,9 +38,8 @@ public class Publication extends AuditableAbstractAggregateRoot<Publication> {
     @Embedded
     private CommentManager commentManager;
 
-    @Column(nullable = false)
     @NotNull
-    @Size(max = 1000)
+    @Column(columnDefinition = "TEXT")
     private String image;
 
     @Column(nullable = false)

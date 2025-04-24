@@ -42,7 +42,7 @@ public class User extends AuditableAbstractAggregateRoot<User> implements UserDe
   private Set<Role> roles;
 
 
-  @Column(length = 1000000000)
+  @Column(columnDefinition = "TEXT")
   private String proofingEntrepreneure; // Added attribute
 
   public User() {
