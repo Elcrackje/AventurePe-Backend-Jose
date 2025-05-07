@@ -3,18 +3,27 @@ package com.upc.aventurape.platform.shared.infrastructure.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfiguration {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    @Bean("apiFilterChain")
+    public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(AbstractHttpConfigurer::disable) // deshabilita CSRF
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/").permitAll() // Permitir acceso público a la raíz
-                        .anyRequest().authenticated()    // Requiere autenticación para otros endpoints
+                        .requestMatchers(
+                                "/",                        //  redireccion al swagger
+                                "/swagger-ui/**",          // Swagger UI
+                                "/v3/api-docs/**",         // Docs de OpenAPI
+                                "/actuator/**",           // por si se se usa Spring Actuator
+                                "/swagger-ui/index.html#/"
+                        ).permitAll()                // permite el acceso sin autenticacion
+                        .anyRequest().authenticated() // el resto de rutas requieren autenticación
                 );
+
         return http.build();
     }
 }
