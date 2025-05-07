@@ -9,8 +9,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Bean("apiFilterChain")
+    public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable) // deshabilita CSRF
                 .authorizeHttpRequests(auth -> auth
@@ -18,7 +18,8 @@ public class SecurityConfig {
                                 "/",                        // tu redirección
                                 "/swagger-ui/**",          // Swagger UI
                                 "/v3/api-docs/**",         // Docs de OpenAPI
-                                "/actuator/**"             // opcional, si usas Spring Actuator
+                                "/actuator/**",           // opcional, si usas Spring Actuator
+                                "/swagger-ui/index.html#/"
                         ).permitAll()                // permiten acceso sin auth
                         .anyRequest().authenticated() // el resto requiere login
                 );
